@@ -1,0 +1,26 @@
+{
+  "name": "orchestrator-reminderMom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ichsan2706/orchestrator-reminderMom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ichsan2706/orchestrator-reminderMom/issues"
+  },
+  "homepage": "https://github.com/ichsan2706/orchestrator-reminderMom#readme",
+  "dependencies": {
+    "apollo-server": "^3.5.0",
+    "axios": "^0.24.0",
+    "graphql": "^16.2.0",
+    "graphql-tools": "^8.2.0"
+  }
+}
