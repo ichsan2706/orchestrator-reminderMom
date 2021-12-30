@@ -11,6 +11,7 @@ const typeDefs = gql`
         nik: String,
         pob: String,
         dob: String,
+        email: String,
         address: String,
         gender: String,
         phoneNumber: String
@@ -18,6 +19,7 @@ const typeDefs = gql`
 
     type Query {
         getParents: [Parent]
+        checkParent(email:String): Parent
     }
 `
 
@@ -25,10 +27,19 @@ const resolvers = {
     Query: {
         getParents: async () => {
             try {
-                let {data:parents} = await axios.get('/')
+                let { data: parents } = await axios.get('/')
                 return parents
             } catch (error) {
                 return error
+            }
+        },
+        checkParent: async (_, args) => {
+            try {
+                console.log(args);
+                const { data: parent } = await axios.get('/checkLogin/' + args.email)
+                return parent
+            } catch (error) {
+                console.log(error);
             }
         }
     }
