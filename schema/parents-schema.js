@@ -12,14 +12,34 @@ const typeDefs = gql`
         pob: String,
         dob: String,
         email: String,
+        password: String,
         address: String,
         gender: String,
         phoneNumber: String
     }
 
+    type Message {
+        message:String
+        status:Int
+    }
+
     type Query {
         getParents: [Parent]
         getProfile(email:String): Parent
+    }
+
+    type Mutation {
+        register(
+            name: String, 
+            nik: String, 
+            pob: String, 
+            dob: String, 
+            email: String,
+            password: String,
+            address: String,
+            gender: String,
+            phoneNumber: String
+        ): Message
     }
 `
 
@@ -40,6 +60,19 @@ const resolvers = {
                 return parent
             } catch (error) {
                 console.log(error);
+            }
+        }
+    },
+    Mutation: {
+        register: async (_, args) => {
+            try {
+                const {name, nik, pob, dob, email, password, address, gender, phoneNumber} = args
+                const {data} = await axios.post(`http://localhost:4001/register`, {
+                    name, nik, pob, dob, email, password, address, gender, phoneNumber
+                })
+                return {message: `success register`, status: 201}
+            } catch (error) {
+                return error
             }
         }
     }
