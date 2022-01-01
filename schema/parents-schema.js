@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server');
 const axios = require('axios')
 
-axios.defaults.baseURL = `http://localhost:4001`
+// axios.defaults.baseURL = `http://localhost:4001`
 
 const typeDefs = gql`
 
@@ -19,7 +19,7 @@ const typeDefs = gql`
 
     type Query {
         getParents: [Parent]
-        checkParent(email:String): Parent
+        getProfile(email:String): Parent
     }
 `
 
@@ -27,16 +27,16 @@ const resolvers = {
     Query: {
         getParents: async () => {
             try {
-                let { data: parents } = await axios.get('/')
+                let { data: parents } = await axios.get('http://localhost:4001/')
                 return parents
             } catch (error) {
                 return error
             }
         },
-        checkParent: async (_, args) => {
+        getProfile: async (_, args) => {
             try {
                 console.log(args);
-                const { data: parent } = await axios.get('/checkLogin/' + args.email)
+                const { data: parent } = await axios.get('http://localhost:4001/getProfile/' + args.email)
                 return parent
             } catch (error) {
                 console.log(error);
