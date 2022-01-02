@@ -23,6 +23,17 @@ const typeDefs = gql`
         status:Int
     }
 
+    type MessageLogin {
+        access_token: String,
+        profile: Parent,
+        status: Int
+    }
+
+    input inputLogin {
+        email: String,
+        password: String
+    }
+
     type Query {
         getParents: [Parent]
         getProfile(email:String): Parent
@@ -40,7 +51,9 @@ const typeDefs = gql`
             gender: String,
             phoneNumber: String
         ): Message
+        loginUser(email: String, password: String) : MessageLogin
     }
+
 `
 
 const resolvers = {
@@ -71,6 +84,17 @@ const resolvers = {
                     name, nik, pob, dob, email, password, address, gender, phoneNumber
                 })
                 return {message: `success register`, status: 201}
+            } catch (error) {
+                return error
+            }
+        },
+        loginUser: async(_,args) => {
+            try {
+                const {email, password} = args
+                console.log(email, password);
+                const {data} = await axios.post(`http://localhost:4001/login`, {email, password})
+                console.log(data, `respon`);
+                return {access_token: data.access_token, profile: data.profile, status: 200}
             } catch (error) {
                 return error
             }
