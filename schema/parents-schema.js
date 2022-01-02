@@ -92,10 +92,11 @@ const resolvers = {
             try {
                 const {email, password} = args
                 console.log(email, password);
-                const {data} = await axios.post(`http://localhost:4001/login`, {email, password})
-                console.log(data, `respon`);
+                const { data } = await axios.post(`http://localhost:4001/login`, { email, password })
+                console.log(data);
                 return {access_token: data.access_token, profile: data.profile, status: 200}
             } catch (error) {
+                console.log(error);
                 return error
             }
         }
