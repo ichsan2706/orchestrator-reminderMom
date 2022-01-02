@@ -42,7 +42,6 @@ const typeDefs = gql`
         addChildren(name:String, nik:String, pob:String, dob:String, weight: String, height: String, headCirc: String, gender: String, status: String, id_parent:String): Message
     }
 `
-
 const resolvers = {
     Query: {
         getChildrens: async (_, args) => {
