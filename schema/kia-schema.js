@@ -46,6 +46,7 @@ const resolvers = {
     Mutation: {
         addChildren: async (_, args) => {
             try {
+                console.log(args);
                 const { name, nik, pob, dob, weight, height, headCirc, gender, status, id_parent } = args
                 const { data: children } = await axios.post('http://localhost:4002/children/', {
                     name, nik, pob, dob, weight, height, headCirc, gender, status, id_parent
