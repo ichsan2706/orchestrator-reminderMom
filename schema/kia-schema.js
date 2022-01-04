@@ -56,14 +56,17 @@ const typeDefs = gql`
         getTips: [Tips]
         detailTips(phase: String): Tips
         getChildrens(id_parent:String): [Children]
-        getTreathment(age: Int):[Treatment]
         getMedicalRecordPerChild(id_children: Int):[MedicalRecord]
-        getTreatments:[Treatment]
+        getAllMedicalRecords:[MedicalRecord]
+        getTreatments(id_children:String):Treatment
+        getAllTreatments:[Treatment]
     }
 
     type Mutation {
         addChildren(name:String, nik:String, pob:String, dob:String, weight: String, height: String, headCirc: String, gender: String, status: String, id_parent:String): Message
+        addMedicalRecord(id_children:String, id_treatment:String, id_midwife: String, place:String, height: String, weight: String, headCirc: String, note: String): Message
     }
+
 `
 const resolvers = {
     Query: {
@@ -91,17 +94,17 @@ const resolvers = {
                 return error
             }
         },
-        getTreathment: async (_, args) => {
+        getTreatments: async (_, args) => {
             try {
-                let { data: treathment } = await axios.get(`http://localhost:4002/treatment/${args.age}`)
-                return treathment
+                let { data: treatments } = await axios.get(`http://localhost:4002/treatment/${args.id_children}`)
+                return treatments
             } catch (error) {
                 return error
             }
         },
-        getTreatments: async () => {
+        getAllTreatments: async () => {
             try {
-                let { data: treatments } = await axios.get(`http://localhost:4002/treatment`)
+                let { data: treatments } = await axios.get(`http://localhost:4002/treatment/`)
                 return treatments.result
             } catch (error) {
                 return error
@@ -111,6 +114,14 @@ const resolvers = {
             try {
                 let { data: medicalRecord } = await axios.get(`http://localhost:4002/medicalRecord/${args.id_children}`)
                 return medicalRecord.result
+            } catch (error) {
+                return error
+            }
+        },
+        getAllMedicalRecords: async () => {
+            try {
+                let { data: medicalRecords } = await axios.get(`http://localhost:4002/medicalRecord/`)
+                return medicalRecords.result
             } catch (error) {
                 return error
             }
@@ -125,6 +136,17 @@ const resolvers = {
                     name, nik, pob, dob, weight, height, headCirc, gender, status, id_parent
                 })
                 return { message: "success add children", status: 201 }
+            } catch (error) {
+                return error
+            }
+        },
+        addMedicalRecord: async (_, args) => {
+            try {
+                const { id_children, id_treatment, id_midwife, place, height, weight, headCirc, note } = args
+                const { data: medicalRecord } = await axios.post('http://localhost:4002/medicalRecord/', {
+                    id_children, id_treatment, id_midwife, place, height, weight, headCirc, note
+                })
+                return { message: "success add medical record", status : 201}
             } catch (error) {
                 return error
             }
