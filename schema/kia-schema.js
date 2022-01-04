@@ -47,6 +47,12 @@ const typeDefs = gql`
         month: Int
     }
 
+    type Pregnant {
+        status:String,
+        id_parent:String,
+        lastMens:String
+    }
+
     type Message {
         message:String
         status:Int
@@ -60,11 +66,14 @@ const typeDefs = gql`
         getAllMedicalRecords:[MedicalRecord]
         getTreatments(id_children:String):Treatment
         getAllTreatments:[Treatment]
+        getAllPregnants:[Pregnant]
+        getPregnantPerParent(id_parent:String):Pregnant
     }
 
     type Mutation {
         addChildren(name:String, nik:String, pob:String, dob:String, weight: String, height: String, headCirc: String, gender: String, status: String, id_parent:String): Message
         addMedicalRecord(id_children:String, id_treatment:String, id_midwife: String, place:String, height: String, weight: String, headCirc: String, note: String): Message
+        addPregnant(id_parent:String, lastMens:String): Message
     }
 
 `
@@ -125,6 +134,22 @@ const resolvers = {
             } catch (error) {
                 return error
             }
+        },
+        getAllPregnants: async () => {
+            try {
+                let { data: Pregnants } = await axios.get(`http://localhost:4002/pregnant/`)
+                return Pregnants.result
+            } catch (error) {
+                return error
+            }
+        },
+        getPregnantPerParent: async (_, args) => {
+            try {
+                let { data: Pregnant } = await axios.get(`http://localhost:4002/pregnant/${args.id_parent}`)
+                return Pregnant.result
+            } catch (error) {
+                return error
+            }
         }
     },
     Mutation: {
@@ -147,6 +172,18 @@ const resolvers = {
                     id_children, id_treatment, id_midwife, place, height, weight, headCirc, note
                 })
                 return { message: "success add medical record", status : 201}
+            } catch (error) {
+                return error
+            }
+        },
+        addPregnant: async (_, args) => {
+            console.log(args);
+            try {
+                const { id_parent, lastMens } = args
+                const { data: pregnant } = await axios.post(`http://localhost:4002/pregnant/`, {
+                    id_parent, lastMens, status:'janin'
+                })
+                return { message: "success add Pregnant", status : 201}
             } catch (error) {
                 return error
             }
