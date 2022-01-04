@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server');
 const axios = require('axios')
 
-// axios.defaults.baseURL = `http://localhost:4002`
+// axios.defaults.baseURL = `https://remindmom-kia-server.herokuapp.com`
 
 const typeDefs = gql`
     type Children {
@@ -81,7 +81,7 @@ const resolvers = {
     Query: {
         getChildrens: async (_, args) => {
             try {
-                let { data: childrens } = await axios.get('http://localhost:4002/children/'+args.id_parent)
+                let { data: childrens } = await axios.get('https://remindmom-kia-server.herokuapp.com/children/'+args.id_parent)
                 return childrens.result
             } catch (error) {
                 return error
@@ -89,7 +89,7 @@ const resolvers = {
         },
         getTips: async () => {
             try {
-                let {data: tips} = await axios.get(`http://localhost:4002/tips`)
+                let {data: tips} = await axios.get(`https://remindmom-kia-server.herokuapp.com/tips`)
                 return tips
             } catch (error) {
                 return error
@@ -97,7 +97,7 @@ const resolvers = {
         },
         detailTips: async (_, args) => {
             try {
-                let {data: tip} = await axios.get(`http://localhost:4002/tips/${args.phase}`)
+                let {data: tip} = await axios.get(`https://remindmom-kia-server.herokuapp.com/tips/${args.phase}`)
                 return tip
             } catch (error) {
                 return error
@@ -105,7 +105,7 @@ const resolvers = {
         },
         getTreatments: async (_, args) => {
             try {
-                let { data: treatments } = await axios.get(`http://localhost:4002/treatment/${args.id_children}`)
+                let { data: treatments } = await axios.get(`https://remindmom-kia-server.herokuapp.com/treatment/${args.id_children}`)
                 return treatments
             } catch (error) {
                 return error
@@ -113,7 +113,7 @@ const resolvers = {
         },
         getAllTreatments: async () => {
             try {
-                let { data: treatments } = await axios.get(`http://localhost:4002/treatment/`)
+                let { data: treatments } = await axios.get(`https://remindmom-kia-server.herokuapp.com/treatment/`)
                 return treatments.result
             } catch (error) {
                 return error
@@ -121,7 +121,7 @@ const resolvers = {
         },
         getMedicalRecordPerChild: async (_, args) => {
             try {
-                let { data: medicalRecord } = await axios.get(`http://localhost:4002/medicalRecord/${args.id_children}`)
+                let { data: medicalRecord } = await axios.get(`https://remindmom-kia-server.herokuapp.com/medicalRecord/${args.id_children}`)
                 return medicalRecord.result
             } catch (error) {
                 return error
@@ -129,7 +129,7 @@ const resolvers = {
         },
         getAllMedicalRecords: async () => {
             try {
-                let { data: medicalRecords } = await axios.get(`http://localhost:4002/medicalRecord/`)
+                let { data: medicalRecords } = await axios.get(`https://remindmom-kia-server.herokuapp.com/medicalRecord/`)
                 return medicalRecords.result
             } catch (error) {
                 return error
@@ -137,7 +137,7 @@ const resolvers = {
         },
         getAllPregnants: async () => {
             try {
-                let { data: Pregnants } = await axios.get(`http://localhost:4002/pregnant/`)
+                let { data: Pregnants } = await axios.get(`https://remindmom-kia-server.herokuapp.com/pregnant/`)
                 return Pregnants.result
             } catch (error) {
                 return error
@@ -145,7 +145,7 @@ const resolvers = {
         },
         getPregnantPerParent: async (_, args) => {
             try {
-                let { data: Pregnant } = await axios.get(`http://localhost:4002/pregnant/${args.id_parent}`)
+                let { data: Pregnant } = await axios.get(`https://remindmom-kia-server.herokuapp.com/pregnant/${args.id_parent}`)
                 return Pregnant.result
             } catch (error) {
                 return error
@@ -157,7 +157,7 @@ const resolvers = {
             try {
                 console.log(args);
                 const { name, nik, pob, dob, weight, height, headCirc, gender, status, id_parent } = args
-                const { data: children } = await axios.post('http://localhost:4002/children/', {
+                const { data: children } = await axios.post('https://remindmom-kia-server.herokuapp.com/children/', {
                     name, nik, pob, dob, weight, height, headCirc, gender, status, id_parent
                 })
                 return { message: "success add children", status: 201 }
@@ -168,7 +168,7 @@ const resolvers = {
         addMedicalRecord: async (_, args) => {
             try {
                 const { id_children, id_treatment, id_midwife, place, height, weight, headCirc, note } = args
-                const { data: medicalRecord } = await axios.post('http://localhost:4002/medicalRecord/', {
+                const { data: medicalRecord } = await axios.post('https://remindmom-kia-server.herokuapp.com/medicalRecord/', {
                     id_children, id_treatment, id_midwife, place, height, weight, headCirc, note
                 })
                 return { message: "success add medical record", status : 201}
@@ -180,7 +180,7 @@ const resolvers = {
             console.log(args);
             try {
                 const { id_parent, lastMens } = args
-                const { data: pregnant } = await axios.post(`http://localhost:4002/pregnant/`, {
+                const { data: pregnant } = await axios.post(`https://remindmom-kia-server.herokuapp.com/pregnant/`, {
                     id_parent, lastMens, status:'janin'
                 })
                 return { message: "success add Pregnant", status : 201}

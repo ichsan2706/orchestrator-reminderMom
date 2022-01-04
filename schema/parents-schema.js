@@ -60,7 +60,7 @@ const resolvers = {
     Query: {
         getParents: async () => {
             try {
-                let { data: parents } = await axios.get('http://localhost:4001/')
+                let { data: parents } = await axios.get('https://remindmom-kia-server.herokuapp.com/')
                 return parents
             } catch (error) {
                 return error
@@ -69,7 +69,7 @@ const resolvers = {
         getProfile: async (_, args) => {
             try {
                 console.log(args);
-                const { data: parent } = await axios.get('http://localhost:4001/getProfile/' + args.email)
+                const { data: parent } = await axios.get('https://remindmom-kia-server.herokuapp.com/getProfile/' + args.email)
                 return parent
             } catch (error) {
                 console.log(error);
@@ -80,7 +80,7 @@ const resolvers = {
         register: async (_, args) => {
             try {
                 const {name, nik, pob, dob, email, password, address, gender, phoneNumber} = args
-                const {data} = await axios.post(`http://localhost:4001/register`, {
+                const {data} = await axios.post(`https://remindmom-kia-server.herokuapp.com/register`, {
                     name, nik, pob, dob, email, password, address, gender, phoneNumber
                 })
                 return {message: `success register`, status: 201}
@@ -92,7 +92,7 @@ const resolvers = {
             try {
                 const {email, password} = args
                 console.log(email, password);
-                const { data } = await axios.post(`http://localhost:4001/login`, { email, password })
+                const { data } = await axios.post(`https://remindmom-kia-server.herokuapp.com/login`, { email, password })
                 console.log(data);
                 return {access_token: data.access_token, profile: data.profile, status: 200}
             } catch (error) {
